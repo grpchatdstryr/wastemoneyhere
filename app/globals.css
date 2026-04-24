@@ -1,26 +1,144 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), Arial, sans-serif;
+}
+
+@keyframes shimmer {
+  0%   { background-position: 0% center; }
+  100% { background-position: 200% center; }
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.35; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-12px); }
+}
+
+@keyframes aurora1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50%       { transform: translate(50px, -40px) scale(1.1); }
+}
+
+@keyframes aurora2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50%       { transform: translate(-40px, 30px) scale(0.9); }
+}
+
+@keyframes aurora3 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50%       { transform: translate(25px, 45px) scale(1.05); }
+}
+
+.aurora {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  pointer-events: none;
+}
+
+/* ── Shimmer headline ─────────────────────────── */
+
+.shimmer-dark {
+  background: linear-gradient(90deg, #fff 0%, #4ade80 30%, #fff 50%, #4ade80 72%, #fff 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 5s linear infinite;
+}
+
+.shimmer-light {
+  background: linear-gradient(90deg, #0a0a0a 0%, #166534 30%, #0a0a0a 50%, #166534 72%, #0a0a0a 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 5s linear infinite;
+}
+
+/* ── Pulsing badge dot ────────────────────────── */
+
+.pulse-dot {
+  animation: pulse-dot 2.5s ease-in-out infinite;
+}
+
+/* ── Preset pills ─────────────────────────────── */
+
+.preset-pill {
+  transition: all 0.15s ease;
+}
+
+.dark-mode .preset-pill:hover,
+.dark-mode .preset-pill.active {
+  border-color: rgba(74, 222, 128, 0.45) !important;
+  color: #4ade80 !important;
+  background: rgba(74, 222, 128, 0.1) !important;
+}
+
+.light-mode .preset-pill:hover,
+.light-mode .preset-pill.active {
+  border-color: rgba(21, 128, 61, 0.45) !important;
+  color: #15803d !important;
+  background: rgba(21, 128, 61, 0.08) !important;
+}
+
+/* ── Amount input ─────────────────────────────── */
+
+.amount-input {
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.amount-input input::placeholder {
+  opacity: 0.2;
+}
+
+.dark-mode .amount-input:focus-within {
+  border-color: rgba(74, 222, 128, 0.35) !important;
+  box-shadow: 0 0 0 1px rgba(74, 222, 128, 0.12), 0 0 40px rgba(74, 222, 128, 0.04);
+}
+
+.light-mode .amount-input:focus-within {
+  border-color: rgba(21, 128, 61, 0.35) !important;
+  box-shadow: 0 0 0 1px rgba(21, 128, 61, 0.12), 0 4px 20px rgba(0, 0, 0, 0.04);
+}
+
+/* ── Waste button ─────────────────────────────── */
+
+.waste-btn {
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease;
+}
+
+.dark-mode .waste-btn:hover:not(:disabled) {
+  transform: translateY(-2px) scale(1.005);
+  box-shadow: 0 0 55px rgba(74, 222, 128, 0.55), 0 0 130px rgba(74, 222, 128, 0.18) !important;
+}
+
+.light-mode .waste-btn:hover:not(:disabled) {
+  transform: translateY(-2px) scale(1.005);
+  box-shadow: 0 10px 40px rgba(21, 128, 61, 0.38), 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+}
+
+.waste-btn:active:not(:disabled) {
+  transform: scale(0.99) !important;
+}
+
+/* ── Theme toggle ─────────────────────────────── */
+
+.theme-toggle {
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.dark-mode .theme-toggle:hover {
+  border-color: rgba(74, 222, 128, 0.4) !important;
+  color: #4ade80 !important;
+}
+
+.light-mode .theme-toggle:hover {
+  border-color: rgba(21, 128, 61, 0.4) !important;
+  color: #15803d !important;
 }
