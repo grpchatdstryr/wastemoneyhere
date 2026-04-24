@@ -4,15 +4,12 @@ import { NextRequest, NextResponse } from "next/server";
 const MIN_CENTS = 1;
 const MAX_CENTS = 1_000_000;
 
-if (!process.env.STRIPE_SECRET_KEY) {
-  throw new Error("STRIPE_SECRET_KEY is not set");
-}
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
-
 export async function POST(req: NextRequest) {
-  if (!process.env.NEXT_PUBLIC_URL) {
+  if (!process.env.STRIPE_SECRET_KEY || !process.env.NEXT_PUBLIC_URL) {
     return NextResponse.json({ error: "Server misconfigured" }, { status: 500 });
   }
+
+  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
   try {
     let body: { cents?: number };
