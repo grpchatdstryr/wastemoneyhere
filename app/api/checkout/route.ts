@@ -15,7 +15,7 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    let body: { cents?: unknown };
+    let body: { cents?: number };
     try {
       body = await req.json();
     } catch {
@@ -23,7 +23,7 @@ export async function POST(req: NextRequest) {
     }
     const { cents } = body;
 
-    if (!Number.isInteger(cents) || cents < MIN_CENTS || cents > MAX_CENTS) {
+    if (typeof cents !== "number" || !Number.isInteger(cents) || cents < MIN_CENTS || cents > MAX_CENTS) {
       return NextResponse.json({ error: "Invalid amount" }, { status: 400 });
     }
 
